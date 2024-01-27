@@ -1,0 +1,3 @@
+Noticed a bug after closing the GameServer. The process doesnt get terminated and will lead to "Failed Binding" on the next Server Startup.
+
+For now the process has to be terminated through taskmngr manually. Server restart will work afterwards.

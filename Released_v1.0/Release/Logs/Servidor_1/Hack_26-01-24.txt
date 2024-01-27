@@ -1,0 +1,11 @@
+
+00:19:26 : O usuário EXILED não enviou o pacote de integridade de macaddress
+16:56:12 : O usuário EXILED não enviou o pacote de integridade de macaddress
+17:29:09 : O usuário EXILED não enviou o pacote de integridade de macaddress
+17:48:45 : O usuário EXILED não enviou o pacote de integridade de macaddress
+17:50:31 : O usuário EXILED não enviou o pacote de integridade de macaddress
+18:34:07 : O usuário EXILED não enviou o pacote de integridade de macaddress
+18:59:55 : O usuário EXILED não enviou o pacote de integridade de macaddress
+19:00:19 : O usuário EXILED não enviou o pacote de integridade de macaddress
+19:16:31 : O usuário EXILED não enviou o pacote de integridade de macaddress
+19:17:43 : O usuário EXILED não enviou o pacote de integridade de macaddress

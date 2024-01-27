@@ -1,0 +1,5 @@
+
+00:17:39 : =========================== NOVA SESSÃO ==========================
+Tentativa de logar na conta - IP: 127.0.0.1 Mac: (2B:6B:FD:50:39:42). ClientId: 1
+00:17:39 : [Mensagem do servidor]> Esta conta não foi encontrada.
+00:17:39 : Personagem foi desconectado. Permaneceu 00:00:00 minutos online
