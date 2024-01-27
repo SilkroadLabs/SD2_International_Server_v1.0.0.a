@@ -1,0 +1,7 @@
+﻿  pch.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winnt.h(426,27): error C2146: Syntaxfehler: Fehlendes ";" vor Bezeichner "PVOID64"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winnt.h(426,34): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winnt.h(14513,13): error C3646: "Buffer": Unbekannter Überschreibungsspezifizierer
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winnt.h(14513,19): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\ipexport.h(69,24): error C3646: "OptionsData": Unbekannter Überschreibungsspezifizierer
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\ipexport.h(98,23): error C3646: "Data": Unbekannter Überschreibungsspezifizierer
