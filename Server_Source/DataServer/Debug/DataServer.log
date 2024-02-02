@@ -4,8 +4,8 @@
   CUser.cpp
   DataServer.cpp
   Log.cpp
-C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\Log.cpp(84,25): warning C4101: "e": Unreferenzierte lokale Variable
+E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\Log.cpp(84,25): warning C4101: "e": Unreferenzierte lokale Variable
   ProcessTimer.cpp
   WinProc.cpp
   Code wird generiert...
-  DataServer.vcxproj -> C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\Debug\DataServer.exe
+  DataServer.vcxproj -> E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\Debug\DataServer.exe

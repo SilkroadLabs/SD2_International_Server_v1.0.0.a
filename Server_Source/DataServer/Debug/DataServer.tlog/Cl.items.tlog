@@ -1,8 +1,8 @@
-C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\Base.cpp;C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\Debug\Base.obj
-C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\CFileDB.cpp;C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\Debug\CFileDB.obj
-C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\CPSock.cpp;C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\Debug\CPSock.obj
-C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\CUser.cpp;C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\Debug\CUser.obj
-C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\DataServer.cpp;C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\Debug\DataServer.obj
-C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\Log.cpp;C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\Debug\Log.obj
-C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\ProcessTimer.cpp;C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\Debug\ProcessTimer.obj
-C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\WinProc.cpp;C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\DataServer\Debug\WinProc.obj
+E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\Base.cpp;E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\Debug\Base.obj
+E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\CFileDB.cpp;E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\Debug\CFileDB.obj
+E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\CPSock.cpp;E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\Debug\CPSock.obj
+E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\CUser.cpp;E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\Debug\CUser.obj
+E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\DataServer.cpp;E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\Debug\DataServer.obj
+E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\Log.cpp;E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\Debug\Log.obj
+E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\ProcessTimer.cpp;E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\Debug\ProcessTimer.obj
+E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\WinProc.cpp;E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\DataServer\Debug\WinProc.obj

@@ -50,7 +50,7 @@ bool CUser::HandleAdminCommand(p334* p)
 		int ret = sscanf_s(p->eValue, "+move %d %d", &x, &y);
 		if (ret != 2 || x < 0 || x >= 4096 || y < 0 || y >= 4096)
 		{
-			SendClientMessage(clientId, "Coordenadas inválidas");
+			SendClientMessage(clientId, "Unknown Coordinates");
 
 			return true;
 		}
@@ -63,7 +63,7 @@ bool CUser::HandleAdminCommand(p334* p)
 		auto& categories = sServer.DonateStore.Categories;
 		if (x < 0 || x >= (int)categories.size() || y < 0 || y >= (int)categories[x].Items.size())
 		{
-			SendClientMessage(clientId, "Índice inválido");
+			SendClientMessage(clientId, "Invalid Index!");
 			return true;
 		}
 
@@ -82,7 +82,7 @@ bool CUser::HandleAdminCommand(p334* p)
 
 		AddMessageDB((BYTE*)&packet, sizeof packet);
 */
-		SendClientMessage(clientId, "\"%s\". Item: \"%s\". Disponível: %d", categories[x].Name.c_str(), ItemList[categories[x].Items[y].Item.Index].Name, x2);
+		SendClientMessage(clientId, "\"%s\". Item: \"%s\". Available: %d", categories[x].Name.c_str(), ItemList[categories[x].Items[y].Item.Index].Name, x2);
 		return true;
 	}
 	if (!strncmp(p->eValue, "+promo status", 13))
@@ -100,7 +100,7 @@ bool CUser::HandleAdminCommand(p334* p)
 			}
 		}
 
-		SendClientMessage(clientId, "A visualização da promoção está %s", sServer.PromotionStatus ? "ativa" : "desativa");
+		SendClientMessage(clientId, "The promotion status is %s", sServer.PromotionStatus ? "enabled" : "disabled");
 		return true;
 	}
 	if (!strncmp(p->eValue, "+boss", 5))
@@ -109,32 +109,32 @@ bool CUser::HandleAdminCommand(p334* p)
 		if (sscanf_s(p->eValue, "+boss status %d", &x))
 		{
 			event->SetEventStatus(x != 0);
-			SendClientMessage(clientId, "O evento foi %s", x != 0 ? "ativado" : "desativado");
+			SendClientMessage(clientId, "The event is %s", x != 0 ? "enabled" : "disabled");
 		}
 		else if (sscanf_s(p->eValue, "+boss double %d", &x))
 		{
 			event->SetDoubleMode(x != 0);
-			SendClientMessage(clientId, "O doublemode foi %s", x != 0 ? "ativado" : "desativado");
+			SendClientMessage(clientId, "O doublemode foi %s", x != 0 ? "enabled" : "disabled");
 		}
 		else if (sscanf_s(p->eValue, "+boss npcname %s", nickName, 16))
 		{
 			event->SetTeleportNPCName(nickName);
-			SendClientMessage(clientId, "O NPC de teleporte foi setado para %s", nickName);
+			SendClientMessage(clientId, "The Teleport NPC has been set to %s", nickName);
 		}
 		else if (sscanf_s(p->eValue, "+boss bossname %s", nickName, 16))
 		{
 			event->SetBossName(nickName);
-			SendClientMessage(clientId, "O NPC de teleporte foi setado para %s", nickName);
+			SendClientMessage(clientId, "The Boss NPC has been set to %s", nickName);
 		}
 		else if (sscanf_s(p->eValue, "+boss medalid %d", &x))
 		{
 			event->SetMedalID(x);
-			SendClientMessage(clientId, "O ID da medallha foi setado para %d", x);
+			SendClientMessage(clientId, "The Medal ID has been set to %d", x);
 		}
 		else if (sscanf_s(p->eValue, "+boss item %hu %hhu %hhu %hhu %hhu %hhu %hhu", &Item.Index, &Item.EF1, &Item.EFV1, &Item.EF2, &Item.EFV2, &Item.EF3, &Item.EFV3))
 		{
 			event->SetItem(Item);
-			SendClientMessage(clientId, "O item do evento foi setado para %hu %hhu %hhu %hhu %hhu %hhu %hhu", Item.Index, Item.EF1, Item.EFV1, Item.EF2, Item.EFV2, Item.EF3, Item.EFV3);
+			SendClientMessage(clientId, "The event item was set to %hu %hhu %hhu %hhu %hhu %hhu %hhu", Item.Index, Item.EF1, Item.EFV1, Item.EF2, Item.EFV2, Item.EF3, Item.EFV3);
 		}
 
 		return true;
@@ -144,7 +144,7 @@ bool CUser::HandleAdminCommand(p334* p)
 		auto event = static_cast<TOD_ChristmasMission*>(TOD_EventManager::GetInstance().GetEvent(TOD_EventType::Mission));
 		event->SetStatus(x != 0);
 
-		SendClientMessage(clientId, "O evento foi %s", x != 0 ? "ativado" : "desativado");
+		SendClientMessage(clientId, "The event is %s", x != 0 ? "enabled" : "disabled");
 		return true;
 	}
 	if (sscanf_s(p->eValue, "+set ban %s %d %d %d %d", &nickName, 16, &x2, &x, &y, &slot))
@@ -202,7 +202,7 @@ bool CUser::HandleAdminCommand(p334* p)
 		int ret = sscanf_s(p->eValue, "+check %s", nickName, 36);
 		if (ret == 0)
 		{
-			SendClientMessage(clientId, "Comando inválido. Digite o nome do usuário");
+			SendClientMessage(clientId, "Invalid command. Enter the Username.");
 
 			return true;
 		}
@@ -210,7 +210,7 @@ bool CUser::HandleAdminCommand(p334* p)
 		int userId = GetUserByName(nickName);
 		if (userId == 0)
 		{
-			SendClientMessage(clientId, "Usuário não está conectado");
+			SendClientMessage(clientId, "User is not logged in.");
 
 			return true;
 		}

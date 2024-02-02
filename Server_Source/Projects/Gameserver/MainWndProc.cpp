@@ -81,7 +81,7 @@ LONG APIENTRY WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 				int ret = Users[userId].AcceptUser(sServer.Socket);
 				if (userId >= MAX_PLAYER - 10)
 				{
-					SendClientMessage(userId, "Servidor cheio. Tente novamente mais tarde");
+					SendClientMessage(userId, "Server Full. Try later");
 					Users[userId].SendMessageA();
 
 					CloseUser(userId);
@@ -117,9 +117,9 @@ LONG APIENTRY WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 				ret = WSAGetLastError();
 
 				if (user->User.Username[0])
-					Log(user->clientId, LOG_INGAME, "Usuário foi desconectado. Recebeu o erro %d no Receive", ret);
+					Log(user->clientId, LOG_INGAME, "User has been logged out. Received the error %d no Receive", ret);
 				else
-					Log(SERVER_SIDE, LOG_INGAME, "Um usuário foi desconectado pois recebeu o erro %d", ret);
+					Log(SERVER_SIDE, LOG_INGAME, "A user was logged out because they received the error %d", ret);
 
 				CloseUser(user->clientId);
 				break;
@@ -129,9 +129,9 @@ LONG APIENTRY WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 				ret = WSAGetLastError();
 
 				if (user->User.Username[0])
-					Log(user->clientId, LOG_INGAME, "Usuário foi desconectado. Recebeu o erro %d no Receive", ret);
+					Log(user->clientId, LOG_INGAME, "User has been logged out. Received error %d", ret);
 				else
-					Log(SERVER_SIDE, LOG_INGAME, "Um usuário foi desconectado pois recebeu o erro %d", ret);
+					Log(SERVER_SIDE, LOG_INGAME, "User was logged out because due to the following error %d", ret);
 
 				CloseUser(user->clientId);
 				break;
@@ -149,7 +149,7 @@ LONG APIENTRY WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 				{
 					CloseUser(user->clientId);
 
-					Log(user->clientId, LOG_INGAME, "Desconectado por Error 2 - ReadMessage");
+					Log(user->clientId, LOG_INGAME, "Disconnected due to Error 2 - Read Message");
 					break;
 				}
 
@@ -238,7 +238,7 @@ LONG APIENTRY WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 
 					SetArenaDoor(3);
 
-					// Lê os arquivos de itens
+					// Read NPCGener files
 					mGener.ReadNPCGener();
 				}
 				else
@@ -254,7 +254,7 @@ LONG APIENTRY WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 
 
 		case WM_SIZE:
-			// Redesenhar a configuração quando a janela for redimensionada
+			// Redraw configuration when window is resized
 			DrawConfig();
 			break;
 
@@ -301,14 +301,14 @@ void TextOutWind(char* str, int color)
 	char* token = strtok_s(str, "\n", &nextToken);
 	while (token != NULL) {
 		TextOutA(hDC, x, y, token, strlen(token));
-		y += 16; // Ou qualquer outro valor de deslocamento vertical desejado
+		y += 16; // Or any other desired vertical offset value
 		token = strtok_s(NULL, "\n", &nextToken);
 	}
 }
 
 void DrawConfig()
 {
-	// Carrega as configurações do srv
+	// Load srv settings
 	ReadGameConfigv2();
 	ReadGameConfig();
 
@@ -317,18 +317,18 @@ void DrawConfig()
 	int PRETO = RGB(0, 0, 0);
 	int AZUL = RGB(0, 0, 255);
 
-	// String para armazenar informações
+	// String to store information
 	char String[1024];
 	memset(String, 0, sizeof(String));
 
-	// Configurações da fonte
-	int TAMANHO_LETRA = 16; // Tamanho da letra em pontos
-	int NEGRITO = FW_BOLD;  // Peso da fonte negrito
+	// Font Settings
+	int TAMANHO_LETRA = 16; // Font size in points
+	int NEGRITO = FW_BOLD;  // Bold font weight
 
-	// Variável para o status do boss Kefra
+	// Variable for Kefra boss status
 	int kefranameplay = sServer.KefraKiller;
 
-	// Reinicialize todas as variáveis necessárias
+	// Reset all necessary variables
 	x = 0;
 	y = 0;
 	hDC = GetDC(GUI.hGUI);
@@ -344,18 +344,18 @@ void DrawConfig()
 
 	SelectObject(hDC, CreateFont(TAMANHO_LETRA, 0, 0, 0, NEGRITO, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "Arial"));
 
-	// Configura a cor do título em vermelho
+	// Sets the title color to red
 	SetTextColor(hDC, VERMELHO);
 	TextOutWind((char*)"\n         ", 0);
-	TextOutWind((char*)"SEJA FELIZ E AME SEU PRÓXIMO!", AZUL);
+	TextOutWind((char*)"Have Fun!", AZUL);
 
-	// Início do bloco de informações do servidor
-	TextOutWind((char*)"#Versao Cliente:", AZUL);
+	// Start of server information block
+	TextOutWind((char*)"#Client Version:", AZUL);
 	sprintf_s(String, sizeof(String), "   Cliver atual [%d]", sServer.CliVer);
 	TextOutWind(String, PRETO);
-	// Fim do bloco
+	// End of block
 
-	// Configura a cor do título em vermelho para "Item Drop Bonus Settings"
+	// Sets the title color to red for "Item Drop Bonus Settings"
 	TextOutWind((char*)"#Item Drop Rate Settings:", AZUL);
 
 	for (int i = 0; i < 4; i++)
@@ -367,59 +367,59 @@ void DrawConfig()
 			Taxes[8 + pos], Taxes[9 + pos], Taxes[10 + pos], Taxes[11 + pos],
 			Taxes[12 + pos], Taxes[13 + pos], Taxes[14 + pos], Taxes[15 + pos]);
 
-		// Configura a cor do texto em preto para os valores de taxa de drop
+		// Sets the text color to black for drop rate values
 		SetTextColor(hDC, PRETO);
 
 		TextOutWind(String, PRETO);
 	}
-	// Fim do bloco de informações do servidor
+	// End of server information block
 
-	// Início do bloco de informações de bônus de experiência
-	TextOutWind((char*)"#Bonus experiencia:", AZUL);
+	// Start of experience bonus information block
+	TextOutWind((char*)"#Bonus Experience:", AZUL);
 	sprintf_s(String, sizeof(String), "   %d%%", sServer.BonusEXP);
 	TextOutWind(String, PRETO);
-	// Fim do bloco de informações de bônus de experiência
+	// End of experience bonus information block
 
-	// Início do bloco
-	TextOutWind((char*)"#Level Novato:", AZUL);
+	// Start of the block
+	TextOutWind((char*)"#Low Levels:", AZUL);
 	sprintf_s(String, sizeof(String), "   %d", sServer.NewbieZone);
 	TextOutWind(String, PRETO);
-	// Fim do bloco
+	// End of block
 
-	// Início do bloco
-	TextOutWind((char*)"#Kefra status:", AZUL);
+	// Start of the block
+	TextOutWind((char*)"#Kefra Status:", AZUL);
 	if (kefranameplay > 1)
-		sprintf_s(String, sizeof(String), "   %s matou Kefra", g_pGuild[sServer.KefraKiller].Name.c_str());
+		sprintf_s(String, sizeof(String), "   %s Killed Kefra and created a connection to Queen Uxmals Temple!", g_pGuild[sServer.KefraKiller].Name.c_str());
 	else
-		sprintf_s(String, sizeof(String), "   Kefra esta vivo");
+		sprintf_s(String, sizeof(String), "   Kefra is spreading fear across the lands.");
 	TextOutWind(String, PRETO);
-	// Fim do bloco
+	// End of block
 
-	// Início do bloco
+	// Start of the block
 	int HourArena1 = 11;
 	int HourArena2 = 18;
 	int HourArena3 = 22;
-	TextOutWind((char*)"#Guerras:", AZUL);
-	sprintf_s(String, sizeof(String), "   Torre: %d:00 - City: %d:00 - Noatun: %d:00 - RvR: %d:00 ", sServer.TowerWar.Hour, sServer.WeekHour, sServer.CastleHour, sServer.RvR.Hour);
+	TextOutWind((char*)"#Wars:", AZUL);
+	sprintf_s(String, sizeof(String), "   Tower: %d:00 - City: %d:00 - Noatun: %d:00 - RvR: %d:00 ", sServer.TowerWar.Hour, sServer.WeekHour, sServer.CastleHour, sServer.RvR.Hour);
 	TextOutWind(String, PRETO);
-	sprintf_s(String, sizeof(String), "   Arena Real(1): %d:00 - Arena Real(2): %d:00 - Arena Real(3): %d:00", HourArena1, HourArena2, HourArena3);
+	sprintf_s(String, sizeof(String), "   Battlefield(1): %d:00 - Battlefield(2): %d:00 - Battlefield(3): %d:00", HourArena1, HourArena2, HourArena3);
 	TextOutWind(String, PRETO);
-	// Fim do bloco
+	// End of block
 
-	// Início do bloco
+	// Start of the block
 	TextOutWind((char*)"#Mobs Lan [N] / Lan[M]:", AZUL);
 	sprintf_s(String, sizeof(String), "   Lan[N]: %d - Lan[M] %d", sServer.LanHouseN.TotalToKill, sServer.LanHouseM.TotalToKill);
 	TextOutWind(String, PRETO);
-	// Fim do bloco
+	// End of block
 
-	// Início do bloco
-	TextOutWind((char*)"#Limite Agua:", AZUL);
+	// Start of the block
+	TextOutWind((char*)"#Water Entrance Limit:", AZUL);
 	sprintf_s(String, sizeof(String), "   %d", sServer.MaxWaterEntrance);
 	TextOutWind(String, PRETO);
-	// Fim do bloco
+	// End Of block
 
-	// Início do bloco de informações de Refinação Abençoada
-	TextOutWind((char*)"#Refinacao Abencoada:", AZUL);
+	// Blessed Refining information block
+	TextOutWind((char*)"#Blessed Refining:", AZUL);
 
 	sprintf_s(String, sizeof(String), "   Lv 40 - 150: %d%%", sServer.RateRef[0]);
 	TextOutWind(String, PRETO);
@@ -435,7 +435,7 @@ void DrawConfig()
 
 	sprintf_s(String, sizeof(String), "   Lv 190 - 400: %d%%", sServer.RateRef[4]);
 	TextOutWind(String, PRETO);
-	// Fim do bloco de informações de Refinação Abençoada
+	// End of Blessed Refining information block
 
 	if (hFont && h)
 		h = (HFONT)SelectObject(hDC, h);

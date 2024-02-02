@@ -26,7 +26,7 @@ void myInvalidParameterHandler(const wchar_t* expression,
 
 int __stdcall WinMain(  HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
-	setlocale(LC_ALL, "Portuguese");
+	setlocale(LC_ALL, "English");
 	TOD_SEHTranslator sehTranslator{};
 
 	//CreateConsole();

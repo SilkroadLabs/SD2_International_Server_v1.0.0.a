@@ -224,8 +224,8 @@ void GenerateDropList()
 void CreateGUI()
 {
 	WNDCLASSEX wcex;
-	const char* szWindowClass = "Destiny - GameServer";
-	const char* szWindowTitle = "Destiny - GameServer";
+	const char* szWindowClass = "SDestiny World - GameServer";
+	const char* szWindowTitle = "SDestiny World - GameServer";
 
 	HINSTANCE hInstance = GetModuleHandle(NULL);
 	bool Sucessful = true;

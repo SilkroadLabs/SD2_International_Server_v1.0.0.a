@@ -1,1 +1,5 @@
-﻿  WYD2Emulator.vcxproj -> C:\Users\User\Downloads\CONTEUDO FREE WYDESTINY 7.84\Source servidor\Debug\GameServer.exe
+﻿  MainWndProc.cpp
+  RequestAdminCommand.cpp
+  RequestCommand.cpp
+  main.cpp
+  WYD2Emulator.vcxproj -> E:\WYDGlobal\WYDNEW\WYD_Pserver_7.84_Precompile\Server_Source\Debug\GameServer.exe
