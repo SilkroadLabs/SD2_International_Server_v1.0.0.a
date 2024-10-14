@@ -1,10 +1,11 @@
-﻿#include "pch.h"
-#include "Basedef.h"
-#include "TMGlobal.h"
-#include "TMLog.h"
-#include "ItemEffect.h"
-#include <WinInet.h>
+﻿#include "pch.h" // Precompiled header inclusion
+#include "Basedef.h" // Base definitions header
+#include "TMGlobal.h" // Global variables and definitions
+#include "TMLog.h" // Logging utilities
+#include "ItemEffect.h" // Item effect definitions
+#include <WinInet.h> // Windows Internet API
 
+// Global variables
 char g_pAffectTable[MAX_EFFECT_STRING_TABLE][24];
 char g_pAffectSubTable[MAX_SUB_EFFECT_STRING_TABLE][24];
 int g_pHitRate[1024];
@@ -21,6 +22,7 @@ STRUCT_SPELL g_pSpell[MAX_SPELL_LIST];
 STRUCT_INITITEM g_pInitItem[100];
 int g_itemicon[6500];
 
+// Guild zone definitions
 STRUCT_GUILDZONE g_pGuildZone[MAX_GUILDZONE] =
 {
     {0, 0, 2088, 2148, 2086, 2093, 2052, 2052, 2171, 2163, 197, 213, 238, 230, 205, 220, 228, 220, 5, 0}, // Armia
@@ -30,26 +32,34 @@ STRUCT_GUILDZONE g_pGuildZone[MAX_GUILDZONE] =
     {0, 0, 1066, 1760, 1050, 1706, 1036, 1700, 1072, 1760, 4000, 4000, 4010, 4010, 4005, 4005, 4005, 4005, 5, 0} // Noatum
 };
 
+// Function to resize screen based on device width
+// Purpose: Adjusts the size of UI elements based on the screen width
 float BASE_ScreenResize(float size)
 {
-	return (float)((float)g_pDevice->m_dwScreenWidth * (float)(size / 800.0f));
+    // Calculate the new size based on the screen width and a base width of 800
+    return (float)((float)g_pDevice->m_dwScreenWidth * (float)(size / 800.0f));
 }
 
+// Function to format strings
+// Purpose: Formats a string with variable arguments and returns the formatted string
 char* strfmt(const char* str, ...)
 {
-    static char buffer[512] = { 0, };
+    static char buffer[512] = { 0, }; // Buffer to hold the formatted string
     va_list va;
     va_start(va, str);
-    vsprintf_s(buffer, str, va);
+    vsprintf_s(buffer, str, va); // Format the string with variable arguments
     va_end(va);
-    return buffer;
+    return buffer; // Return the formatted string
 }
 
+// Function to initialize module directory
+// Purpose: Sets the current directory to the directory of the executable module
 void BASE_InitModuleDir()
 {
     char String[256]{};
-    GetModuleFileName(nullptr, String, sizeof(String));
+    GetModuleFileName(nullptr, String, sizeof(String)); // Get the module file name
 
+    // Remove the file name from the path to get the directory
     for (int i = strlen(String) - 1; i > 0; --i)
     {
         if (String[i] == '\\')
@@ -59,17 +69,20 @@ void BASE_InitModuleDir()
         }
     }
 
-    SetCurrentDirectory(String);
+    SetCurrentDirectory(String); // Set the current directory to the module directory
 }
 
+// Function to initialize hit rate
+// Purpose: Populates the hit rate array with values based on a specific pattern
 void BASE_InitializeHitRate()
 {
-    memset(g_pHitRate, 0, sizeof(g_pHitRate));
+    memset(g_pHitRate, 0, sizeof(g_pHitRate)); // Initialize hit rate array to zero
 
     int Jump = 512;
     int Start = 0;
     int Quad = 0;
 
+    // Populate the hit rate array with values based on a specific pattern
     do
     {
         for (int i = 0; i < 1024; i += Jump)
@@ -96,36 +109,41 @@ void BASE_InitializeHitRate()
         Jump /= 2;
     } while (Jump);
 
-    g_pHitRate[0] = 512;
+    g_pHitRate[0] = 512; // Set the first element to 512
 }
 
+// Function to initialize attributes from a file
+// Purpose: Reads attribute data from a file and populates the attribute array
 int BASE_InitializeAttribute()
 {
     char FileName[256]{};
-    strcpy(FileName, "./Env/AttributeMap.dat");
+    strcpy(FileName, "./Env/AttributeMap.dat"); // Set the file name
 
     FILE* fp = nullptr;
-    fopen_s(&fp, FileName, "rb");
+    fopen_s(&fp, FileName, "rb"); // Try to open the file
     if (fp == nullptr)
-        fopen_s(&fp, "../../TMSRV/Run/AttributeMap.dat", "rb");
+        fopen_s(&fp, "../../TMSRV/Run/AttributeMap.dat", "rb"); // Try an alternative path if the first fails
 
     if (fp == nullptr)
     {
-        MessageBox(0, "There is no file", "Attributemap.dat", MB_OK);
+        MessageBox(0, "There is no file", "Attributemap.dat", MB_OK); // Show error message if file not found
         return 0;
     }
 
-    fread(g_pAttribute, 1024, 1024, fp);
-    fclose(fp);
+    fread(g_pAttribute, 1024, 1024, fp); // Read the attribute data into the array
+    fclose(fp); // Close the file
 
-    return 1;
+    return 1; // Return success
 }
 
+// Function to apply attributes to a height map
+// Purpose: Modifies the height map based on the attribute data
 void BASE_ApplyAttribute(char* pHeight, int size)
 {
     int endx = size + g_HeightPosX;
     int endy = size + g_HeightPosY;
 
+    // Apply attributes to the height map based on the attribute data
     for (int y = g_HeightPosY; y < endy; ++y)
     {
         for (int x = g_HeightPosX; x < endx; ++x)
@@ -136,15 +154,17 @@ void BASE_ApplyAttribute(char* pHeight, int size)
     }
 }
 
+// Function to read item list from binary file
+// Purpose: Reads the item list data from a binary file and decrypts it
 int BASE_ReadItemList()
 {
     FILE* fp = nullptr;
 
-    fopen_s(&fp, ".\\ItemList.bin", "rb");
+    fopen_s(&fp, ".\\ItemList.bin", "rb"); // Open the item list file
 
     if (!fp)
     {
-        MessageBoxA(0, "Can't read ItemList.bin", "ERROR", 0);
+        MessageBoxA(0, "Can't read ItemList.bin", "ERROR", 0); // Show error message if file not found
         return 0;
     }
 
@@ -152,45 +172,53 @@ int BASE_ReadItemList()
 
     char* temp = (char*)g_pItemList;
 
-    fread(g_pItemList, size, 1u, fp);
-    fclose(fp);
+    fread(g_pItemList, size, 1u, fp); // Read the item list data into the array
+    fclose(fp); // Close the file
 
+    // Decrypt the item list data
     for (int i = 0; i < size; ++i)
         temp[i] ^= 0x5A;
 
-    return 1;
+    return 1; // Return success
 }
 
+// Function to read skill data from binary file
+// Purpose: Reads the skill data from a binary file and decrypts it
 int BASE_ReadSkillBin()
 {
     int size = sizeof(STRUCT_SPELL) * MAX_SPELL_LIST;
     char* temp = (char*)g_pSpell;
 
-    FILE* fp = fopen(SkillData_Path, "rb");
+    FILE* fp = fopen(SkillData_Path, "rb"); // Open the skill data file
     int CheckSumValue = 0;
     if (fp != NULL)
     {
-        fread(g_pSpell, size, 1, fp);
-        fread(&CheckSumValue, 4u, 1u, fp);
-        fclose(fp);
+        fread(g_pSpell, size, 1, fp); // Read the skill data into the array
+        fread(&CheckSumValue, 4u, 1u, fp); // Read the checksum value
+        fclose(fp); // Close the file
 
+        // Decrypt the skill data
         for (int i = 0; i < size; i++)
             temp[i] = temp[i] ^ 0x5A;
     }
     else
     {
-        MessageBox(NULL, "Can't read SkillData.bin", "ERROR", NULL);
+        MessageBox(NULL, "Can't read SkillData.bin", "ERROR", NULL); // Show error message if file not found
         return FALSE;
     }
-    return TRUE;
+    return TRUE; // Return success
 }
 
+// Function to read initial item data (currently does nothing)
+// Purpose: Placeholder function for reading initial item data
 int BASE_ReadInitItem()
 {
     // Check if is really necessarily
     return 1;
 }
 
+// Function to reprice initial items
+// Purpose: Updates the prices of specific items in the item list
 void BASE_InitialItemRePrice()
 {
     g_pItemList[412].nPrice = 4000000;
@@ -199,31 +227,35 @@ void BASE_InitialItemRePrice()
     g_pItemList[420].nPrice = 800000;
 }
 
+// Function to calculate a checksum for a given data block
+// Purpose: Computes a checksum for a data block using a specific algorithm
 int BASE_GetSum(char* p, int size)
 {
-	int sum = 0;
-	for (int i = 0; i < size; ++i)
-	{
-		int mod = i % 7;
-		if (!(i % 7))
-			sum += p[i] / 2;
-		if (mod == 1)
-			sum += p[i] ^ 0xFF;
-		if (mod == 2)
-			sum += 3 * p[i];
-		if (mod == 3)
-			sum += 2 * p[i];
-		if (mod == 4)
-			sum -= p[i] / 7;
-		if (mod == 5)
-			sum -= p[i];
-		else
-			sum += p[i] / 3;
-	}
+    int sum = 0;
+    for (int i = 0; i < size; ++i)
+    {
+        int mod = i % 7;
+        if (!(i % 7))
+            sum += p[i] / 2;
+        if (mod == 1)
+            sum += p[i] ^ 0xFF;
+        if (mod == 2)
+            sum += 3 * p[i];
+        if (mod == 3)
+            sum += 2 * p[i];
+        if (mod == 4)
+            sum -= p[i] / 7;
+        if (mod == 5)
+            sum -= p[i];
+        else
+            sum += p[i] / 3;
+    }
 
-	return sum;
+    return sum; // Return the calculated checksum
 }
 
+// Function to calculate an alternative checksum for a given data block
+// Purpose: Computes a checksum for a data block using a different algorithm
 int BASE_GetSum2(char* p, int size)
 {
     int sum = 0;
@@ -247,61 +279,66 @@ int BASE_GetSum2(char* p, int size)
             sum += p[i] / 5;
     }
 
-    return sum;
+    return sum; // Return the calculated checksum
 }
 
+// Function to read message data from binary file
+// Purpose: Reads the message data from a binary file, verifies the checksum, and decrypts it
 int BASE_ReadMessageBin()
 {
-	memset(g_pMessageStringTable, 0, sizeof g_pMessageStringTable);
+    memset(g_pMessageStringTable, 0, sizeof g_pMessageStringTable); // Initialize message string table to zero
 
-	int size = 256000;
-	FILE* pFile = nullptr;
-	fopen_s(&pFile, Strdef_Path, "rb");
+        int size = 256000;
+        FILE* pFile = nullptr;
+        fopen_s(&pFile, Strdef_Path, "rb"); // Open the message data file
 
-	int checksum = 0;	
-	if (pFile)
-	{
-		fread(g_pMessageStringTable, size, 1u, pFile);
-		fread(&checksum, 4, 1, pFile);
-		fclose(pFile);
-	}
+    int checksum = 0;	
+    if (pFile)
+        {
+        fread(g_pMessageStringTable, size, 1u, pFile); // Read the message data into the array
+        fread(&checksum, 4, 1, pFile); // Read the checksum value
+        fclose(pFile); // Close the file
+        }
 
-	if (checksum != BASE_GetSum((char*)g_pMessageStringTable, size))
-		return 0;
+    if (checksum != BASE_GetSum((char*)g_pMessageStringTable, size)) // Verify the checksum
+        return 0;
 
-	for (int i = 0; i < 2000; ++i)
-		for (int k = 0; k < 128; ++k)
-			g_pMessageStringTable[i][k] ^= 0x5A;
+    // Decrypt the message data
+        for (int i = 0; i < 2000; ++i)
+        for (int k = 0; k < 128; ++k)
+        g_pMessageStringTable[i][k] ^= 0x5A;
 
-	return 1;
+    return 1; // Return success
 }
 
+// Function to initialize effect strings
+// Purpose: Reads effect strings and sub-strings from files and populates the respective arrays
 void BASE_InitEffectString()
 {
     FILE* fpEffectString = nullptr;
-    fopen_s(&fpEffectString, EffectString_Path, "rt");
+    fopen_s(&fpEffectString, EffectString_Path, "rt"); // Open the effect string file
 
     if (fpEffectString)
     {
-        for (int i = 1; i < MAX_EFFECT_STRING_TABLE; ++i)
-            fscanf(fpEffectString, "%24s", &g_pAffectTable[i][0]);
-   
-        fclose(fpEffectString);
+    for (int i = 1; i < MAX_EFFECT_STRING_TABLE; ++i)
+    fscanf(fpEffectString, "%24s", &g_pAffectTable[i][0]); // Read the effect strings into the array
+    fclose(fpEffectString); // Close the file
     }
 
     FILE* fpEffectSubString = nullptr;
-    fopen_s(&fpEffectSubString, EffectSubString_Path, "rt");
+    fopen_s(&fpEffectSubString, EffectSubString_Path, "rt"); // Open the effect sub-string file
 
     if (fpEffectSubString)
     {
-        for (int j = 0; j < MAX_SUB_EFFECT_STRING_TABLE; ++j)
-            fscanf(fpEffectSubString, "%s", &g_pAffectSubTable[j][0]);
+    for (int j = 0; j < MAX_SUB_EFFECT_STRING_TABLE; ++j)
+        fscanf(fpEffectSubString, "%s", &g_pAffectSubTable[j][0]); // Read the effect sub-strings into the array
 
-        fclose(fpEffectSubString);
+        fclose(fpEffectSubString); // Close the file
     }
+}
 
     /* There's a loading of the GuildString.txt file, but is not used */
-}
+
 
 int BASE_InitializeBaseDef()
 {
