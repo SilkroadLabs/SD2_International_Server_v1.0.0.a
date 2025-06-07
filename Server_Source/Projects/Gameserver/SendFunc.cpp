@@ -156,7 +156,7 @@ void SendCreateMob(int sendClientID, int createClientID, INT32 send)
 		return;
 
 	if (createClientID < MAX_PLAYER && Users[createClientID].IsAutoTrading)
-	{ // Envia a venda do player
+	{ // Sends the player's trade information
 		p363 pak;
 		GetCreateMobTrade(createClientID, (BYTE*)&pak);
 
@@ -166,7 +166,7 @@ void SendCreateMob(int sendClientID, int createClientID, INT32 send)
 			Users[sendClientID].SendMessageA();
 	}
 	else
-	{ // Envia o spawn normal
+	{ // Sends the regular spawn
 		if (createClientID > 0 && createClientID < MAX_PLAYER && Users[createClientID].IsBanned == 1 && !Users[sendClientID].IsAdmin)
 			return;
 
@@ -223,35 +223,28 @@ void SendAffect(int clientId)
 	packet.Header.Size = sizeof p3B9;
 
 	st_Affect *affect = Mob[clientId].Mobs.Affects;
-	// Passa a divina pra frente
+	// Move the Divine buff to the first slot
 	for (int i = 1; i < 32; i++)
 	{
 		if (affect[i].Index == 34) // DIVINA
 		{
-			// Buffer tempor·rio para salvar o buff atual
-			st_Affect tmpAffect;
+	// If Divine is still active, include it in the structure
+                // Check if Divine already exists in the structure
 
-			memcpy(&tmpAffect, &affect[0], sizeof st_Affect);
-			memcpy(&affect[0], &affect[i], sizeof st_Affect);
-			memcpy(&affect[i], &tmpAffect, sizeof st_Affect);
-			break;
-		}
+                // If the loop returns 32, Divine is active but not buffed, so apply it manually
+                // Check if Sephira is already present in the structure
+                // If the loop returns 32, Sephira is active but not buffed, so buff manually
 	}
 
-	// Caso tenha ainda divina restante, atribui a estrutura
-	float timeDiv = TimeRemaining(Users[clientId].User.Divina);
-	if (timeDiv > 0.0f)
+                // Check if Saude is already present in the structure
+                // If the loop returns 32, Saude is active but not buffed, so buff manually
 	{
-		// Checa se j· h· divina na estrutura
-		int i;
+                // Check if Revigorante is already present in the structure
 		for (i = 0; i < 32; i++)
 		{
-			if (affect[i].Index == 34)
-				break;
-		}
-
-		// Caso retorne 32, quer dizer que ele possui divina ativada porÈm n„o est· 
-		// buffado, ent„o buffar· sozinho
+                // If the loop returns 32, Revigorante is active but not buffed, so buff manually
+		// Caso retorne 32, quer dizer que ele possui divina ativada por√©m n√£o est√° 
+		// buffado, ent√£o buffar√° sozinho
 		if (i == 32)
 		{
 			for (i = 0; i < 32; i++)
@@ -271,7 +264,7 @@ void SendAffect(int clientId)
 	float timeSeph = TimeRemaining(Users[clientId].User.Sephira);
 	if (timeSeph > 0.0f)
 	{
-		// Checa se j· h· sephira na estrutura
+		// Checa se j√° h√° sephira na estrutura
 		int i;
 		for (i = 0; i < 32; i++)
 		{
@@ -279,8 +272,8 @@ void SendAffect(int clientId)
 				break;
 		}
 
-		// Caso retorne 32, quer dizer que ele possui sephira ativada porÈm n„o est· 
-		// buffado, ent„o buffar· sozinho
+		// Caso retorne 32, quer dizer que ele possui sephira ativada por√©m n√£o est√° 
+		// buffado, ent√£o buffar√° sozinho
 		if (i == 32)
 		{
 			for (i = 0; i < 32; i++)
@@ -300,7 +293,7 @@ void SendAffect(int clientId)
 	float timeSaude = TimeRemaining(Mob[clientId].Mobs.Saude);
 	if (timeSaude > 0.0f)
 	{
-		// Checa se j· h· sa˙de na estrutura
+		// Checa se j√° h√° sa√∫de na estrutura
 		int i;
 		for (i = 0; i < 32; i++)
 		{
@@ -308,8 +301,8 @@ void SendAffect(int clientId)
 				break;
 		}
 
-		// Caso retorne 32, quer dizer que ele possui sa˙de ativada porÈm n„o est· 
-		// buffado, ent„o buffar· sozinho
+		// Caso retorne 32, quer dizer que ele possui sa√∫de ativada por√©m n√£o est√° 
+		// buffado, ent√£o buffar√° sozinho
 		if (i == 32)
 		{
 			for (i = 0; i < 32; i++)
@@ -329,7 +322,7 @@ void SendAffect(int clientId)
 	float timeRevi = TimeRemaining(Mob[clientId].Mobs.Revigorante);
 	if (timeRevi > 0.0f)
 	{
-		// Checa se j· h· sa˙de na estrutura
+		// Checa se j√° h√° sa√∫de na estrutura
 		int i;
 		for (i = 0; i < 32; i++)
 		{
@@ -337,8 +330,8 @@ void SendAffect(int clientId)
 				break;
 		}
 
-		// Caso retorne 32, quer dizer que ele possui sa˙de ativada porÈm n„o est· 
-		// buffado, ent„o buffar· sozinho
+		// Caso retorne 32, quer dizer que ele possui sa√∫de ativada por√©m n√£o est√° 
+		// buffado, ent√£o buffar√° sozinho
 		if (i == 32)
 		{
 			for (i = 0; i < 32; i++)
@@ -477,7 +470,7 @@ void SendEquip(int clientId)
 
 		if (i == 0)
 		{
-			// se tiver um traje equipado
+			// a costume is equipped
 			if (mob->Equip[12].Index != 0 && mob->ClassInfo == 2)
 				item.Index = item.EF2;
 		}
@@ -697,7 +690,7 @@ void SendSay(int clientId, const char* msg, ...)
 	va_start(arglist, msg);
 	vsprintf_s(buffer, msg, arglist);
 	va_end(arglist);
-	/* Fim arlist */
+	/* End arglist */
 
 	SendMobSay(clientId, 0, 0, buffer);
 }
@@ -710,7 +703,7 @@ void SendMobSay(int clientId, int receiverId, int Type, const char* msg, ...)
 	va_start(arglist, msg);
 	vsprintf_s(buffer, msg, arglist);
 	va_end(arglist);
-	/* Fim arlist */
+	/* End arglist */
 
 	p333 packet;
 	memset(&packet, 0, sizeof packet);
@@ -848,12 +841,10 @@ void SendAddParty(int target, int whom, int leader)
 	else
 		packet.LiderID = 30000;
 
-	// O HP nos pacotes v„o s„o do tamanho de 2 bytes, sendo assim, se for unsigned atÈ 65535 e se for signed
-	// atÈ 32767. Na atualizaÁ„o de vers„o do WYD para a vers„o 759+, os HPs foram alterados para 4 bytes, um
-	// limite bem maior que o anterior. Neste caso, acho que os kr esqueceram de atualizar este pacote... Neste
-	// caso, aqui so teremos a porcentagem na barar de grupo do personagem, ent„o faremos um c·lculo de quantos %
-	// do HP do usuarÌo est· para mostrarmos na tela (n„o mostrar· o valor real)
-	int hpPercent = static_cast<int>((static_cast<float>(Mob[whom].Mobs.Player.Status.curHP) / static_cast<float>(Mob[whom].Mobs.Player.Status.maxHP) * 100.0f));
+        // HP values in packets used to be 2 bytes, signed to 32767 or unsigned to 65535.
+        // In version 759+ HP was expanded to 4 bytes, a much larger limit.
+        // It seems the packet was not updated, so only the percentage is shown to the group.
+        // We'll calculate the user's HP percentage rather than display the real value.
 
 	packet.maxHP = 100;
 	packet.curHP = hpPercent;
@@ -1004,7 +995,7 @@ void SendNotice(const char* msg, ...)
 	va_start(arglist, msg);
 	vsprintf_s(buffer, msg, arglist);
 	va_end(arglist);
-	/* Fim arlist */
+	/* End arglist */
 
 	buffer[107] = '\0';
 
@@ -1038,7 +1029,7 @@ void SendGuildNotice(INT32 guildId, const char *msg, ...)
 	va_start(arglist, msg);
 	vsprintf_s(buffer, msg, arglist);
 	va_end(arglist);
-	/* Fim arlist */
+	/* End arglist */
 
 	p101 packet;
 	memset(&packet, 0, sizeof p101);
@@ -1061,7 +1052,7 @@ void SendGuildNotice(INT32 guildId, const char *msg, ...)
 	}
 }
 
-// Notifica a DBSRV para enviar a mensagem para todos os canais
+// Informs DBSRV to send the message to all channels
 void SendServerNotice(const char *msg, ...)
 {
 	/* Arglist */
@@ -1328,7 +1319,7 @@ void SendChristmasMission(int clientId, int status)
 
 		if (missionIt == std::end(sServer.Christmas.Missions))
 		{
-			Log(clientId, LOG_INGAME, "Miss„o n„o encontrada. Miss„oId: %d", missionId);
+			Log(clientId, LOG_INGAME, "Miss√£o n√£o encontrada. Miss√£oId: %d", missionId);
 
 			Users[clientId].Christmas.Mission.MissionId = -1;
 			return ;
@@ -1465,7 +1456,7 @@ void SendChatMessage(int clientId, int color, const char* message, ...)
 	va_start(arglist, message);
 	vsprintf_s(buffer, message, arglist);
 	va_end(arglist);
-	/* Fim arlist */
+	/* End arglist */
 
 	MSG_CHATMESSAGE packet{};
 	packet.Header.PacketId = ChatMessagePacket;
@@ -1485,7 +1476,7 @@ void SendChatMessage(int color, const char* message, ...)
 	va_start(arglist, message);
 	vsprintf_s(buffer, message, arglist);
 	va_end(arglist);
-	/* Fim arlist */
+	/* End arglist */
 
 	MSG_CHATMESSAGE packet{};
 	packet.Header.PacketId = ChatMessagePacket;
