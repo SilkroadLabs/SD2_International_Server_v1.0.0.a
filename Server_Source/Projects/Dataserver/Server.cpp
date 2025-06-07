@@ -688,7 +688,7 @@ void SendNotice(int srv, char *msg, ...)
 	char buffer[150];
 	va_list arglist;
 	va_start(arglist, msg);
-	vsprintf_s(buffer, msg, arglist);
+	vsprintf_s(buffer, sizeof(buffer), msg, arglist);
 	va_end(arglist);
 	/* Fim arlist */
 	p101 packet;
@@ -791,10 +791,10 @@ void ProcessSecTimer()
 	if (!now.tm_sec && now.tm_wday >= 0 && now.tm_wday < 6 && !now.tm_min)
 	{/*
 		// 21 Horas de segunda~sexta
-		// Enviar pacote para as tmsrv avisando do início da guerra
+		// Enviar pacote para as tmsrv avisando do inÃ­cio da guerra
 		if (now.tm_hour == 23 && now.tm_wday != 0)
 		{
-			// Informa os canais das condições iniciais da guerra e libera o funcionamento
+			// Informa os canais das condiÃ§Ãµes iniciais da guerra e libera o funcionamento
 			for (int i = 0; i < MAX_SERVERGROUP; i++)
 			{
 				if (pUser[i].Mode == USER_EMPTY)
@@ -804,16 +804,16 @@ void ProcessSecTimer()
 					continue;
 
 				// Seta o TowerState em todos os canais
-				// Como quem está avançadno é o canal contrário
+				// Como quem estÃ¡ avanÃ§adno Ã© o canal contrÃ¡rio
 				// Quando o sistema inicia:
-				// O canal 1 está avançando sobre o 2
-				// O canal 2 está avançando sobre o 1
+				// O canal 1 estÃ¡ avanÃ§ando sobre o 2
+				// O canal 2 estÃ¡ avanÃ§ando sobre o 1
 				int otherConn = ((i % 2) ? (i - 1) : (i + 1));
 				g_pTowerWarState[i].TowerState = otherConn;
 			}
 
-			// Envia a informação para a TMsrv da atual situação da guerra
-			// O parametro 1 indica que a guerra está sendo iniciada
+			// Envia a informaÃ§Ã£o para a TMsrv da atual situaÃ§Ã£o da guerra
+			// O parametro 1 indica que a guerra estÃ¡ sendo iniciada
 			SendTowerWarInfo(1);
 		}
 
@@ -845,7 +845,7 @@ void ProcessSecTimer()
 		for (int i = 0; i < MAX_SERVERGROUP; i++)
 		{
 			// Notifica os outros canais de que o Kefra morreu primeiro em outro canal
-			// E chama a função de renascimento de Kefra em cada canal
+			// E chama a funÃ§Ã£o de renascimento de Kefra em cada canal
 			if (pUser[i].Mode == USER_EMPTY)
 				continue;
 
@@ -924,7 +924,7 @@ void ImportPass()
 				INT32 srv = idxName / MAX_PLAYER;
 				INT32 id = idxName % MAX_PLAYER;
 
-				cFileDB.SendLog(srv, id, "A conta estava online. Não é possível trocar a senha.");
+				cFileDB.SendLog(srv, id, "A conta estava online. NÃ£o Ã© possÃ­vel trocar a senha.");
 
 				INT32 t = _findnext(findFile, &file);
 				if (t != 0)
@@ -956,7 +956,7 @@ void ImportPass()
 			{
 				strncpy_s(account.SecondPass, num, 6);
 
-				str << std::endl << "A senha numérica foi trocada para " << num;
+				str << std::endl << "A senha numÃ©rica foi trocada para " << num;
 			}
 
 			INT32 suc = cFileDB.DBWriteAccount(&account);
@@ -1201,7 +1201,7 @@ void ImportItem()
 			runTimeSent = 1;
 
 			std::stringstream str;
-			str << "Recebido o item através da DBsrv " << packet.item.toString().c_str();
+			str << "Recebido o item atravÃ©s da DBsrv " << packet.item.toString().c_str();
 
 			cFileDB.SendLog(srv, id, str.str().c_str());
 		}
@@ -1248,7 +1248,7 @@ void ImportItem()
 			if (pos == -1)
 			{
 				INT32 moveRet = MoveFileA(pathSucess, pathError);
-				Log(accountName, "Sem espaço para receber o item %s.", item.toString().c_str());
+				Log(accountName, "Sem espaÃ§o para receber o item %s.", item.toString().c_str());
 
 				if (moveRet == 0)
 				{
@@ -1383,7 +1383,7 @@ void ImportBan()
 
 		INT32 runTimeSent = 0;
 		INT32 idxName = cFileDB.GetIndex(accountName);
-		// Dá DC no hotário
+		// DÃ¡ DC no hotÃ¡rio
 		if (idxName > 0 && idxName < MAX_DBACCOUNT)
 		{
 			INT32 srv = idxName / MAX_PLAYER;
@@ -1592,7 +1592,7 @@ void ImportCash()
 				continue;
 			}
 
-			Log(accountName, "Foi entregue um total de %d cash para o usuário. Total: %d", cash, account.Cash + cash);
+			Log(accountName, "Foi entregue um total de %d cash para o usuÃ¡rio. Total: %d", cash, account.Cash + cash);
 
 			account.Cash += cash;
 
@@ -1800,31 +1800,31 @@ bool CreateGUI()
 	InitializeBaseDef();
 	if (!ReadCharBase(0, "npc\\TK"))
 	{
-		MessageBoxA(NULL, "Nâo foi possível ler o arquivo TRANSKNIGHT", "Error : read", MB_OK);
+		MessageBoxA(NULL, "NÃ¢o foi possÃ­vel ler o arquivo TRANSKNIGHT", "Error : read", MB_OK);
 
 		return false;
 	}
 	else if (!ReadCharBase(1, "npc\\FM"))
 	{
-		MessageBoxA(NULL, "Nâo foi possível ler o arquivo TRANSKNIGHT", "Error : read", MB_OK);
+		MessageBoxA(NULL, "NÃ¢o foi possÃ­vel ler o arquivo TRANSKNIGHT", "Error : read", MB_OK);
 
 		return false;
 	}
 	else if (!ReadCharBase(2, "npc\\BM"))
 	{
-		MessageBoxA(NULL, "Nâo foi possível ler o arquivo TRANSKNIGHT", "Error : read", MB_OK);
+		MessageBoxA(NULL, "NÃ¢o foi possÃ­vel ler o arquivo TRANSKNIGHT", "Error : read", MB_OK);
 
 		return false;
 	}
 	else if (!ReadCharBase(3, "npc\\HT"))
 	{
-		MessageBoxA(NULL, "Nâo foi possível ler o arquivo TRANSKNIGHT", "Error : read", MB_OK);
+		MessageBoxA(NULL, "NÃ¢o foi possÃ­vel ler o arquivo TRANSKNIGHT", "Error : read", MB_OK);
 
 		return false;
 	}
 	else if (!ReadGuilds())
 	{
-		MessageBoxA(NULL, "Nâo foi possível ler o arquivo guilds.txt", "Error : read", MB_OK);
+		MessageBoxA(NULL, "NÃ¢o foi possÃ­vel ler o arquivo guilds.txt", "Error : read", MB_OK);
 
 		return false;
 	}
