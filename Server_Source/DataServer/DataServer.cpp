@@ -1,4 +1,4 @@
-// DataServer.cpp : Define o ponto de entrada para o aplicativo.
+// DataServer.cpp : Defines the entry point for the application.
 //
 
 #include "framework.h"
@@ -114,7 +114,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	Log("Dbsrv Iniciado com sucesso");
 	SetTimer(hWndMain, TIMER_SEC, 1000, NULL);
 
-	// Loop de mensagem principal:
+        // Main message loop:
 	while (GetMessage(&msg, nullptr, 0, 0))
 	{
 		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
@@ -150,7 +150,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-	hInst = hInstance; // Armazenar o identificador de instância em nossa variável global
+        hInst = hInstance; // Store the instance handle in our global variable
 
 	HWND hWnd = CreateWindowW(szWindowClass, (LPCWSTR)"DataServer - WYD2 v759", WS_OVERLAPPED | WS_CLIPCHILDREN | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
 		CW_USEDEFAULT, 0, 680, 420, nullptr, nullptr, hInstance, nullptr);
@@ -173,7 +173,7 @@ void Log(const char* msg, ...)
 	if (!(bool)serverLog)
 		return;
 
-	// Inicia a lista de argumentos
+        // Start the argument list
 	va_list arglist;
 	va_start(arglist, msg);
 
@@ -677,7 +677,7 @@ void ImportBan()
 
 		INT32 runTimeSent = 0;
 		INT32 idxName = cFileDB.GetIndex(accountName);
-		// Dá DC no hotário
+                // Force a disconnect if the user is online
 		if (idxName > 0 && idxName < MAX_DBACCOUNT)
 		{
 			INT32 srv = idxName / MAX_PLAYER;
